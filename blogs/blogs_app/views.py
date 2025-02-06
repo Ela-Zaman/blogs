@@ -51,9 +51,9 @@ def new_post(request, blog_id):
             new_post = form.save(commit=False)
             new_post.blog = blog
             new_post.save()
-            return redirect("blogs_post:blog", blog_id = blog_id)
+            return redirect("blogs_app:blog", blog_id = blog_id)
     #Display a blank or invalid form
-    context ={'blog':blog, 'form': form}
+    context ={'blog': blog, 'form': form}
     return render(request, 'blogs_app/new_post.html',context)
 
 
