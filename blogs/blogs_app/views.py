@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .models import Blog
+from .models import Blog, Post
 from .forms import BlogForm, PostForm
 
 # Create your views here.
@@ -56,6 +56,24 @@ def new_post(request, blog_id):
     context ={'blog': blog, 'form': form}
     return render(request, 'blogs_app/new_post.html',context)
 
+def edit_post(request, post_id):
+    """Edit an existing post."""
+    post = Post.objects.get(id=post_id)
+    blog = post.blog
+    if request.method != 'POST':
+    #Initial request; pre-fill form with the current entry
+        form = PostForm(instance=post)
+        
+
+    else:
+    #POST data submitted ; process Data,
+        
+        form = PostForm(instance=post, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('blogs_app:blog', blog_id = blog.id)
+    context = {'post': post, 'blog': blog, 'form': form}
+    return render(request,'blogs_app/edit_post.html',context)
 
 
         
